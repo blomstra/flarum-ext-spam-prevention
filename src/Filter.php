@@ -14,6 +14,7 @@ class Filter implements ExtenderInterface
     public static ?int $userPostCount = null;
     public static ?int $userAge = null;
     public static ?int $moderatorUserId = null;
+    public static bool $massEnable = false;
 
     public function allowLinksFromDomain(string $domain)
     {
@@ -60,7 +61,11 @@ class Filter implements ExtenderInterface
 
     public function extend(Container $container, Extension $extension = null)
     {
-
+        if (static::$massEnable) {
+            (new CommentPost)->extend($container, $extension);
+            (new Discussion)->extend($container, $extension);
+            (new UserBio)->extend($container, $extension);
+        }
     }
 
     public static function getAcceptableDomains(): array
@@ -69,5 +74,12 @@ class Filter implements ExtenderInterface
         $config = resolve(Config::class);
 
         return static::$acceptableDomains + [$config->url()];
+    }
+
+    public function enable()
+    {
+        static::$massEnable = true;
+
+        return $this;
     }
 }
