@@ -5,14 +5,14 @@ This extension adds some advanced protection against spam runs on your community
 Install the extension:
 
 ```
-composer require luceos/flarum-simple-spam-tools
+composer require blomstra/spam-prevention
 ```
 
 Update the extension:
 
 
 ```
-composer require luceos/flarum-simple-spam-tools
+composer require blomstra/spam-prevention
 ```
 
 Make sure to confirm all local extenders still work afterwards.
@@ -22,7 +22,7 @@ Make sure to confirm all local extenders still work afterwards.
 In your `extend.php` specify some settings which should speak for themselves:
 ```php
 return [
-    (new \Luceos\Spam\Filter)
+    (new \Blomstra\Spam\Filter)
         // use domain name
         ->allowLinksFromDomain('luceos.com')
         // or just a full domain with protocol, only the host name is used
@@ -49,7 +49,7 @@ return [
 ```php
 return [
     // ...
-    new \Luceos\Spam\UserBio,
+    new \Blomstra\Spam\UserBio,
 ]
 ```
 
@@ -60,7 +60,7 @@ This will prevent any bad content etc based on the Filter settings from configur
 ```php
 return [
     // ..
-    new \Luceos\Spam\CommentPost,
+    new \Blomstra\Spam\CommentPost,
 ]
 ```
 
@@ -71,7 +71,7 @@ This will prevent any bad content in posts based on the Filter settings.
 ```php
 return [
     // ..
-    new \Luceos\Spam\Discussion,
+    new \Blomstra\Spam\Discussion,
 ]
 ```
 
@@ -94,15 +94,15 @@ This could be an example local `extend.php`:
 return [
     //.. some other extenders can come here, the last one needs to end with a comma.
     
-        (new \Luceos\Spam\Filter)
+        (new \Blomstra\Spam\Filter)
         ->allowLinksFromDomain('luceos.com')
         ->allowLinksFromDomain('http://flarum.org')
         ->allowLinksFromDomain('discuss.flarum.org/d/26095')
         ->checkForUserUpToHoursSinceSignUp(24)
         ->checkForUserUpToPostContribution(10)
         ->moderateAsUser(10),
-    new \Luceos\Spam\UserBio,
-    new \Luceos\Spam\CommentPost,
-    new \Luceos\Spam\Discussion,
+    new \Blomstra\Spam\UserBio,
+    new \Blomstra\Spam\CommentPost,
+    new \Blomstra\Spam\Discussion,
 ];
 ```
