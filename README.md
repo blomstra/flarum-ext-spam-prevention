@@ -1,28 +1,78 @@
-# Local extenders to prevent spam
+Spam prevention is a tool (not an extension one can enable from the admin area just yet) based on our spam fighting experience on discuss. By adding just one line of code to your `extend.php` a whole set of smart content analysis tooling is activated.
 
-This extension adds some advanced protection against spam runs on your community. This is not an extension but a bundle of local extenders. Local extenders need to be added to your `extend.php` in the root of your Flarum installation (next to `flarum` and `composer.json` you will see a file `extend.php`).
+### Requirements
 
-Install the extension:
+- flarum/approval - this is required
+- flarum/flags - this is recommended
+- fof/spamblock - optional, when enabled immediately deletes users that open discussions with spam subjects
 
-```
-composer require blomstra/spam-prevention
-```
-
-Update the extension:
-
+### Installation
 
 ```
 composer require blomstra/spam-prevention
 ```
 
-Make sure to confirm all local extenders still work afterwards.
+Now enable this extension with bare minimum functionality by editing the `extend.php` in the root installation directory of flarum, next to your `flarum` and `composer.json` files:
 
-## Configuration
-
-In your `extend.php` specify some settings which should speak for themselves:
 ```php
+<?php
+
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+use Flarum\Extend;
+use Blomstra\Spam;
+
 return [
-    (new \Blomstra\Spam\Filter)
+    // Register extenders here to customize your forum!
+   (new Spam\Filter),
+];
+```
+
+That's it. Read below what this package does and how to customize its behavior.
+
+### Spam prevent logic
+
+How does it try to identify spam?
+
+- it scans for phone numbers
+- it scans for email addresses
+- it scans for links that aren't in the allow list
+- it identifies the language used against the language packs installed
+
+Where does it scan for spam?
+
+- it scans (first) posts
+- it scans user bio's
+
+How does it take action?
+
+- it flags posts with flarum/flags enabled
+- it marks posts as not approved with flarum/approval enabled
+- it overwrites user bio's if it identifies spam
+- it marks users as spammer if a discussion subject contains spam with fof/spamblock
+
+### Customization
+
+```php
+<?php
+
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+use Flarum\Extend;
+use Blomstra\Spam;
+
+return [
+    (new Spam\Filter)
         // use domain name
         ->allowLinksFromDomain('luceos.com')
         // or just a full domain with protocol, only the host name is used
@@ -39,70 +89,19 @@ return [
         ->checkForUserUpToHoursSinceSignUp(5)
         // How many of the first posts of a user to scrutinize for bad content
         ->checkForUserUpToPostContribution(5)
-        // Specify the user Id of the moderator raising flags for some actions
+        // Specify the user Id of the moderator raising flags for some actions, otherwise the first admin is used
         ->moderateAsUser(2),
 ];
 ```
 
-### Prevent Bio Spam
+### FAQ
 
-```php
-return [
-    // ...
-    new \Blomstra\Spam\UserBio,
-]
-```
+__Why is there no admin settings page?__
 
-This will prevent any bad content etc based on the Filter settings from configuration.
+Building a ux for an extension takes a lot of time, especially when the code isn't mature enough. Changes to the inner workings might affect a settings page countless times. We will build a settings page once we're satisfied about the features contained in this tool.
 
-### Prevent CommentPost Spam
+---
 
-```php
-return [
-    // ..
-    new \Blomstra\Spam\CommentPost,
-]
-```
-
-This will prevent any bad content in posts based on the Filter settings.
-
-### Prevent Discussion Subject Spam
-
-```php
-return [
-    // ..
-    new \Blomstra\Spam\Discussion,
-]
-```
-
-Prevents URL's in discussion subjects/titles.
-
-### Example full configuration
-
-This could be an example local `extend.php`:
-
-```php
-<?php
-
-/*
- * This file is part of Flarum.
- *
- * For detailed copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
-return [
-    //.. some other extenders can come here, the last one needs to end with a comma.
-    
-        (new \Blomstra\Spam\Filter)
-        ->allowLinksFromDomain('luceos.com')
-        ->allowLinksFromDomain('http://flarum.org')
-        ->allowLinksFromDomain('discuss.flarum.org/d/26095')
-        ->checkForUserUpToHoursSinceSignUp(24)
-        ->checkForUserUpToPostContribution(10)
-        ->moderateAsUser(10),
-    new \Blomstra\Spam\UserBio,
-    new \Blomstra\Spam\CommentPost,
-    new \Blomstra\Spam\Discussion,
-];
-```
+- Blomstra provides managed Flarum hosting and development.
+- https://blomstra.net
+- https://github.com/blomstra/flarum-ext-spam-prevention
