@@ -36,7 +36,6 @@ trait Content
         $content = preg_replace('~https?:\/\/([-\w.]+)~', '', $content);
         $content = preg_replace('~(\+|00)[0-9 ]{9,}~', '', $content);
 
-
         // Let's not do language analysis on short strings.
         if (mb_strlen($content) < 10) return false;
 

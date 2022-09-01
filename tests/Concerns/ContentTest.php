@@ -120,31 +120,6 @@ EOM
     }
 
     /**
-     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
-     * @test
-     */
-    function fails_on_example_from_discuss_2022_08_26()
-    {
-        (new Filter)
-            ->allowLinksFromDomain('flarum.org')
-            ->allowLinksFromDomain('github.com')
-            ->allowLinksFromDomain('blomstra.net')
-            ->allowLinksFromDomain('extiverse.com')
-            ->allowLinksFromDomain('blomstra.community')
-            ->allowLinksFromDomain('kilowhat.net')
-            ->allowLinksFromDomain('opencollective.org')
-            ->allowLinksFromDomain('packagist.com');
-
-        $this->assertTrue(
-            $this->containsProblematicContent(
-                <<<EOM
-If you are looking for the best and most affordable car rental service, book Chandigarh to Delhi taxi at Vahan Seva. We are a renowned and reliable car rental agency in Chandigarh. We are famous for offering the best cab booking services to our clients. You can find various **[Chandigarh to Delhi Taxi Services](https://jkbrothertravels.com/oneway/taxi-service/chandigarh-to-delhi)** available from where you can book your cab from Chandigarh to Delhi. for more information visit our website.
-EOM
-            )
-        );
-    }
-
-    /**
      * @test
      * @covers \Blomstra\Spam\Concerns\Content::containsAlternateLanguage
      */
