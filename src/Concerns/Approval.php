@@ -1,11 +1,11 @@
 <?php
 
-namespace Luceos\Spam\Concerns;
+namespace Blomstra\Spam\Concerns;
 
 use Flarum\Extension\ExtensionManager;
 use Flarum\Flags\Flag;
 use Flarum\Post\Post;
-use Luceos\Spam\Filter;
+use Blomstra\Spam\Filter;
 
 trait Approval
 {

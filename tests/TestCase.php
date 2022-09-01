@@ -1,6 +1,6 @@
 <?php
 
-namespace Luceos\Spam\Tests;
+namespace Blomstra\Spam\Tests;
 
 use Flarum\Foundation\Config;
 use Flarum\Locale\LocaleManager;

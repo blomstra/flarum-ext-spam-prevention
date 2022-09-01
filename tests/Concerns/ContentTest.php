@@ -1,17 +1,17 @@
 <?php
 
-namespace Luceos\Spam\Tests\Concerns;
+namespace Blomstra\Spam\Tests\Concerns;
 
-use Luceos\Spam\Concerns\Content;
-use Luceos\Spam\Filter;
-use Luceos\Spam\Tests\TestCase;
+use Blomstra\Spam\Concerns\Content;
+use Blomstra\Spam\Filter;
+use Blomstra\Spam\Tests\TestCase;
 
 class ContentTest extends TestCase
 {
     use Content;
 
     /**
-     * @covers \Luceos\Spam\Concerns\Content::containsProblematicLinks
+     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
     function allows_reasonable_content()
@@ -30,7 +30,7 @@ EOM
     }
 
     /**
-     * @covers \Luceos\Spam\Concerns\Content::containsProblematicLinks
+     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
     function fails_on_link()
@@ -59,7 +59,7 @@ EOM
     }
 
     /**
-     * @covers \Luceos\Spam\Concerns\Content::containsProblematicLinks
+     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
     function fails_on_emails()
@@ -88,7 +88,7 @@ EOM
     }
 
     /**
-     * @covers \Luceos\Spam\Concerns\Content::containsProblematicLinks
+     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
     function allows_links_with_acceptable_domain()
@@ -120,7 +120,7 @@ EOM
     }
 
     /**
-     * @covers \Luceos\Spam\Concerns\Content::containsProblematicLinks
+     * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
     function fails_on_example_from_discuss_2022_08_26()
@@ -146,7 +146,7 @@ EOM
 
     /**
      * @test
-     * @covers \Luceos\Spam\Concerns\Content::containsAlternateLanguage
+     * @covers \Blomstra\Spam\Concerns\Content::containsAlternateLanguage
      */
     function allows_installed_languages()
     {
@@ -170,7 +170,7 @@ EOM
 
     /**
      * @test
-     * @covers \Luceos\Spam\Concerns\Content::containsAlternateLanguage
+     * @covers \Blomstra\Spam\Concerns\Content::containsAlternateLanguage
      */
     function fails_for_other_languages()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Luceos\Spam;
+namespace Blomstra\Spam;
 
 use FoF\UserBio\Event\BioChanged;
 use Flarum\Extend\ExtenderInterface;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Luceos\Spam\Concerns;
+namespace Blomstra\Spam\Concerns;
 
 use Flarum\Locale\LocaleManager;
 use LanguageDetection\Language;
-use Luceos\Spam\Filter;
+use Blomstra\Spam\Filter;
 
 trait Content
 {

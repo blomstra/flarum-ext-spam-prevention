@@ -1,10 +1,10 @@
 <?php
 
-namespace Luceos\Spam\Concerns;
+namespace Blomstra\Spam\Concerns;
 
 use Flarum\Group\Group;
 use Flarum\User\User;
-use Luceos\Spam\Filter;
+use Blomstra\Spam\Filter;
 
 trait Users
 {

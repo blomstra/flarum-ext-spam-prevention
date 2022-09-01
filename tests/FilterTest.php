@@ -1,8 +1,8 @@
 <?php
 
-namespace Luceos\Spam\Tests;
+namespace Blomstra\Spam\Tests;
 
-use Luceos\Spam\Filter;
+use Blomstra\Spam\Filter;
 
 class FilterTest extends TestCase
 {
@@ -15,7 +15,7 @@ class FilterTest extends TestCase
 
     /**
      * @test
-     * @covers \Luceos\Spam\Filter::allowLinksFromDomain
+     * @covers \Blomstra\Spam\Filter::allowLinksFromDomain
      */
     function allows_full_uri()
     {
@@ -30,7 +30,7 @@ class FilterTest extends TestCase
 
     /**
      * @test
-     * @covers \Luceos\Spam\Filter::allowLinksFromDomains
+     * @covers \Blomstra\Spam\Filter::allowLinksFromDomains
      */
     function allows_multiple_domains()
     {
@@ -48,7 +48,7 @@ class FilterTest extends TestCase
 
     /**
      * @test
-     * @covers \Luceos\Spam\Filter
+     * @covers \Blomstra\Spam\Filter
      */
     function allows_fqdn()
     {
@@ -63,7 +63,7 @@ class FilterTest extends TestCase
 
     /**
      * @test
-     * @covers \Luceos\Spam\Filter
+     * @covers \Blomstra\Spam\Filter
      */
     function allows_ftp()
     {
@@ -78,7 +78,7 @@ class FilterTest extends TestCase
 
     /**
      * @test
-     * @covers \Luceos\Spam\Filter
+     * @covers \Blomstra\Spam\Filter
      */
     function allows_ip()
     {

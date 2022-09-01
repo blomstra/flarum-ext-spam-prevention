@@ -1,6 +1,6 @@
 <?php
 
-namespace Luceos\Spam\Concerns;
+namespace Blomstra\Spam\Concerns;
 
 use Flarum\Api\Client;
 use Flarum\Extension\ExtensionManager;
