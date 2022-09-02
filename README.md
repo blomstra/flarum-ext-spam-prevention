@@ -12,26 +12,7 @@ Spam prevention is a tool (not an extension one can enable from the admin area j
 composer require blomstra/spam-prevention
 ```
 
-Now enable this extension with bare minimum functionality by editing the `extend.php` in the root installation directory of flarum, next to your `flarum` and `composer.json` files:
-
-```php
-<?php
-
-/*
- * This file is part of Flarum.
- *
- * For detailed copyright and license information, please view the
- * LICENSE file that was distributed with this source code.
- */
-
-use Flarum\Extend;
-use Blomstra\Spam;
-
-return [
-    // Register extenders here to customize your forum!
-   (new Spam\Filter)->enable(),
-];
-```
+Now enable this extension from your admin area and it will already do its job. No further configuration needed.
 
 That's it. Read below what this package does and how to customize its behavior.
 
@@ -90,8 +71,7 @@ return [
         // How many of the first posts of a user to scrutinize for bad content
         ->checkForUserUpToPostContribution(5)
         // Specify the user Id of the moderator raising flags for some actions, otherwise the first admin is used
-        ->moderateAsUser(2)
-        ->enable(),
+        ->moderateAsUser(2),
 ];
 ```
 
