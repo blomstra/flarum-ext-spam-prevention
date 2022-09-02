@@ -27,5 +27,21 @@
         "psr-4": {
             "Blomstra\\Spam\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Spam prevention",
+            "category": "moderation",
+            "icon": {
+                "image": "resources/assets/logo.png",
+                "backgroundColor": "#E3E7F1",
+                "backgroundSize": "60%",
+                "backgroundRepeat": "no-repeat",
+                "backgroundPosition": "center"
+            }
+        },
+        "extiverse": {
+            "discuss": "https://discuss.flarum.org/d/31524"
+        }
     }
 }

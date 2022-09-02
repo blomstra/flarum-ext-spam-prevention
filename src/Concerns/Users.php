@@ -26,12 +26,21 @@ trait Users
 
     public function getModerator(): User
     {
+        $user = null;
+
+        // Use the specified admin if configured.
         if ($moderatorId = Filter::$moderatorUserId) {
-            return User::find($moderatorId);
+            /** @var User $user */
+            $user = User::query()->find($moderatorId);
         }
 
-        return User::whereHas('groups', function ($query) {
+        if  ($user) return $user;
+
+        /** @var User $user */
+        $user = User::query()->whereHas('groups', function ($query) {
             $query->where('id', Group::ADMINISTRATOR_ID);
         })->first();
+
+        return $user;
     }
 }
