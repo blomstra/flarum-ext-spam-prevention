@@ -1,4 +1,4 @@
-Spam prevention is a tool (not an extension one can enable from the admin area just yet) based on our spam fighting experience on discuss. By adding just one line of code to your `extend.php` a whole set of smart content analysis tooling is activated.
+Spam prevention is an extension based on our spam fighting experience on discuss. By adding just one line of code to your `extend.php` a whole set of smart content analysis tooling is activated.
 
 ### Requirements
 
