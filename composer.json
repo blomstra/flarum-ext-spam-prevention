@@ -2,11 +2,12 @@
     "name": "blomstra/spam-prevention",
     "description": "Spam prevention for your Flarum community.",
     "license": "mit",
+    "type": "flarum-extension",
     "authors": [
         {
             "name": "Daniël Klabbers",
             "email": "daniel@klabbers.email",
-            "homepage": "http://luceos.com"
+            "homepage": "https://luceos.com"
         }
     ],
     "require": {
@@ -31,7 +32,7 @@
     "extra": {
         "flarum-extension": {
             "title": "Spam prevention",
-            "category": "moderation",
+            "category": "feature",
             "icon": {
                 "image": "resources/assets/logo.png",
                 "backgroundColor": "#E3E7F1",

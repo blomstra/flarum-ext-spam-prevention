@@ -11,8 +11,8 @@ use Illuminate\Support\Str;
 class Filter implements ExtenderInterface
 {
     public static array $acceptableDomains = [];
-    public static ?int $userPostCount = null;
-    public static ?int $userAge = null;
+    public static int $userPostCount = 1;
+    public static int $userAge = 1;
     public static ?int $moderatorUserId = null;
 
     public function allowLinksFromDomain(string $domain)
