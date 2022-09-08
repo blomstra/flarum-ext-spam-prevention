@@ -16,7 +16,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $container = Container::getInstance();
 
         $container->singleton(Config::class, fn() => new Config([
-            'url' => 'http://localhost'
+            'url' => 'http://flarum.local'
         ]));
 
         $container->singleton(LocaleManager::class, function () {
