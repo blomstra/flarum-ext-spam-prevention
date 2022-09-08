@@ -5,10 +5,25 @@ namespace Blomstra\Spam\Tests\Concerns;
 use Blomstra\Spam\Concerns\Content;
 use Blomstra\Spam\Filter;
 use Blomstra\Spam\Tests\TestCase;
+use Flarum\Foundation\Config;
 
 class ContentTest extends TestCase
 {
     use Content;
+
+    /**
+     * @test
+     * @covers \Blomstra\Spam\Filter::getAcceptableDomains
+     */
+    function contains_config_url()
+    {
+        /** @var Config $config */
+        $config = resolve(Config::class);
+
+        $domains = Filter::getAcceptableDomains();
+
+        $this->assertContains($config->url()->getHost(), $domains);
+    }
 
     /**
      * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
