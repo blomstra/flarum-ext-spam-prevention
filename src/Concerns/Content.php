@@ -26,7 +26,7 @@ trait Content
             // email
             preg_match('~[\S]+@[\S]+\.[\S]+~', $content) ||
             // links
-            preg_match("~https?:\/\/(?!([^\.]+.)*($domains))([-\w.]+)~", $content);
+            preg_match("~https?:\/\/(?!([^\.]+\.)*($domains))([-\w.]+)~", $content);
     }
 
     public function containsAlternateLanguage(string $content): bool
