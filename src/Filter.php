@@ -17,15 +17,18 @@ class Filter implements ExtenderInterface
 
     public function allowLinksFromDomain(string $domain)
     {
+        static::$acceptableDomains[] = static::parseDomain($domain);
+
+        return $this;
+    }
+
+    protected static function parseDomain(string $domain): string
+    {
         $scheme = parse_url($domain, PHP_URL_SCHEME) ?? 'http://';
 
         $domain = $scheme . Str::after($domain, $scheme);
 
-        $domain = parse_url($domain, PHP_URL_HOST);
-
-        static::$acceptableDomains[] = $domain;
-
-        return $this;
+        return parse_url($domain, PHP_URL_HOST);
     }
 
     public function allowLinksFromDomains(array $domains)
@@ -68,6 +71,12 @@ class Filter implements ExtenderInterface
         /** @var Config $config */
         $config = resolve(Config::class);
 
-        return static::$acceptableDomains + [$config->url()];
+        $domains = static::$acceptableDomains + [
+            static::parseDomain($config->url())
+        ];
+
+        $domains = array_filter($domains);
+
+        return $domains;
     }
 }
