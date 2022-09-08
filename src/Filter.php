@@ -71,9 +71,9 @@ class Filter implements ExtenderInterface
         /** @var Config $config */
         $config = resolve(Config::class);
 
-        $domains = static::$acceptableDomains + [
-            static::parseDomain($config->url())
-        ];
+        $domains = array_merge(static::$acceptableDomains, [
+            $config->url()->getHost()
+        ]);
 
         $domains = array_filter($domains);
 
