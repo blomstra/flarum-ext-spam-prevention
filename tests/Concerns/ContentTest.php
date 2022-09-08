@@ -117,6 +117,22 @@ Hi,
 EOM
             )
         );
+        $this->assertFalse(
+            $this->containsProblematicContent(<<<EOM
+Hi,
+
+[this](https://some.acceptable-domain.com) is the best!
+EOM
+            )
+        );
+        $this->assertFalse(
+            $this->containsProblematicContent(<<<EOM
+Hi,
+
+[this](https://even.some.acceptable-domain.com) is the best!
+EOM
+            )
+        );
     }
 
     /**
