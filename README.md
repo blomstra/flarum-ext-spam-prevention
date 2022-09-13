@@ -85,4 +85,5 @@ Building a ux for an extension takes a lot of time, especially when the code isn
 
 - Blomstra provides managed Flarum hosting and development.
 - https://blomstra.net
+- https://blomstra.community/t/ext-spam-prevention
 - https://github.com/blomstra/flarum-ext-spam-prevention
