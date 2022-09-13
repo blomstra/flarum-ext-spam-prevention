@@ -24,6 +24,7 @@ How does it try to identify spam?
 - it scans for email addresses
 - it scans for links that aren't in the allow list
 - it identifies the language used against the language packs installed
+- it ignores elevated users (mods and admins)
 
 Where does it scan for spam?
 
