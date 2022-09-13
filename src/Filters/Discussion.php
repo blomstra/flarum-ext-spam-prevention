@@ -34,6 +34,8 @@ class Discussion
         if ($badContent
             // Ignore discussions that are soft deleted (already).
             && $discussion->hidden_at === null
+            // Ignore any elevated user.
+            && ! $this->isElevatedUser($event->actor)
             // Only enact spam prevent on fresh users.
             && $this->isFreshUser($discussion->user)) {
 

@@ -24,6 +24,12 @@ trait Users
         return false;
     }
 
+    public function isElevatedUser(User $user): bool
+    {
+        return $user->groups->contains(Group::ADMINISTRATOR_ID)
+            || $user->groups->contains(Group::MODERATOR_ID);
+    }
+
     public function getModerator(): User
     {
         $user = null;

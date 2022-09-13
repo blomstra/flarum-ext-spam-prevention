@@ -29,6 +29,8 @@ class CommentPost
         if (
             // Let's check integrity of posts when the change is made by the post author only.
             $event->actor->is($post->user)
+            // Ignore any elevated user.
+            && ! $this->isElevatedUser($event->actor)
             // Only run the check with authors that are new or are posting for the first time.
             && ($this->isFreshUser($post->user) || $editsFirstPost)
             // Discussions that are hidden don't need to be checked.
