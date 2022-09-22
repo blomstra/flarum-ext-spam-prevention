@@ -5,6 +5,7 @@ namespace Blomstra\Spam\Concerns;
 use Flarum\Extension\ExtensionManager;
 use Flarum\Flags\Flag;
 use Flarum\Post\Post;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait Approval
 {
@@ -39,16 +40,22 @@ trait Approval
         }
 
         if ($extensions->isEnabled('flarum-flags')) {
-            $flag = new Flag;
+            /** @var HasMany $flags */
+            $flags = $post->flags();
 
-            $flag->post_id = $post->id;
-            $flag->type = $extensions->isEnabled('flarum-approval') ? 'approval' : 'user';
-            $flag->reason = 'Blocked by spam prevention';
-            $flag->reason_detail = $reason;
-            $flag->user()->associate($this->getModerator());
-            $flag->created_at = time();
+            // Only add the flag once.
+            if ($flags->where('reason', 'Blocked by spam prevention')->doesntExist()) {
+                $flag = new Flag;
 
-            $flag->save();
+                $flag->post_id = $post->id;
+                $flag->type = $extensions->isEnabled('flarum-approval') ? 'approval' : 'user';
+                $flag->reason = 'Blocked by spam prevention';
+                $flag->reason_detail = $reason;
+                $flag->user()->associate($this->getModerator());
+                $flag->created_at = time();
+
+                $flag->save();
+            }
         }
 
         return true;
