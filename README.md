@@ -1,4 +1,4 @@
-Spam prevention is an extension based on our spam fighting experience on discuss. By adding just one line of code to your `extend.php` a whole set of smart content analysis tooling is activated.
+Spam prevention is an extension based on our spam fighting experience on the official Flarum community Discuss. After installation it does a great job at preventing any form of unwanted spam. Give it a spin if spam is an annoyance on your community!
 
 ### Requirements
 
