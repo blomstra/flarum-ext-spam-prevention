@@ -60,4 +60,26 @@ EOM
             )
         );
     }
+
+    /**
+     * @test
+     * @coversNothing
+     * @see https://discuss.flarum.org/d/31524/63
+     */
+    function allows_when_post_contains_one_allowed_domain()
+    {
+        (new Filter)
+            ->allowLinksFromDomain('youtube.com')
+            ->allowLinksFromDomain('youtu.be')
+            ->allowLinksFromDomain('pianoclack.com')
+            ->allowLinksFromDomain('pianoclack.s3.us-east-1.amazonaws.com');
+
+        $this->assertTrue(
+            $this->containsProblematicContent(
+                <<<EOM
+They've already mentioned Yuja and Khatia (who I'd nominate for the most \*Khurvaceous Bach-\*side). Here are three more candidates: Connie Han [Jazz pianist](https://www.facebook.com/conniehanjazz/videos/738541330863782) ; Riyoko Takagi [Autumn Leaves](https://www.youtube.com/watch?v=shD0270uII0) ; Donka Angatscheva : [Classical trio](https://www.youtube.com/watch?v=1fXDFp3qx7k) . PS- No bunnies were harmed during the production of Riyoko's performance.
+EOM
+            )
+        );
+    }
 }

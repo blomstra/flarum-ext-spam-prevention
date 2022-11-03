@@ -3,6 +3,9 @@
 namespace Blomstra\Spam\Concerns;
 
 use Flarum\Locale\LocaleManager;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Laminas\Diactoros\Uri;
 use LanguageDetection\Language;
 use Blomstra\Spam\Filter;
 
@@ -18,15 +21,25 @@ trait Content
     {
         $domains = Filter::getAcceptableDomains();
 
-        $domains = join('|', $domains);
-        $domains = str_replace('.', '\.', $domains);
+        // First check for links.
+        preg_match_all('~(?<uri>(\w+)://(?<domain>[-\w.]+))~', $content, $links);
+
+        foreach (array_filter($links['domain']) as $link) {
+            $uri = (new Uri("http://$link"))->getHost();
+
+            // Match exact domain or subdomains.
+            if (Arr::first($domains, fn ($domain) => $domain === $uri || Str::endsWith($uri, ".$domain"))) {
+                continue;
+            }
+
+            return true;
+        }
+
         return
             // phone
             preg_match('~(\+|00)[0-9 ]{9,}~', $content) ||
             // email
-            preg_match('~[\S]+@[\S]+\.[\S]+~', $content) ||
-            // links
-            preg_match("~https?:\/\/(?!([^\.]+\.)*($domains))([-\w.]+)~", $content);
+            preg_match('~[\S]+@[\S]+\.[\S]+~', $content);
     }
 
     public function containsAlternateLanguage(string $content): bool

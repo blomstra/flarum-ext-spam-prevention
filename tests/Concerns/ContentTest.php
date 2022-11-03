@@ -74,6 +74,23 @@ EOM
     }
 
     /**
+     * @test
+     *      * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
+     */
+    function fails_with_one_allowed_domain()
+    {
+        (new Filter)
+            ->allowLinksFromDomain('acceptable-domain.com');
+
+        $this->assertTrue(
+            $this->containsProblematicContent(<<<EOM
+Come on, [this](https://acceptable-domain.com) is the worst! [this](https://spamlink.com) is the best!
+EOM
+            )
+        );
+    }
+
+    /**
      * @covers \Blomstra\Spam\Concerns\Content::containsProblematicLinks
      * @test
      */
