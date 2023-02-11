@@ -27,7 +27,7 @@ class CommentPost
         $post = $event->post;
 
         // When the user edits their first post, we need to rerun the check and hold for moderation.
-        $editsFirstPost = $post->user->posts()->count() === 1
+        $editsFirstPost = $post->user?->posts()->count() === 1
             && $post->user->posts()->first()->is($event->post);
 
         if (
