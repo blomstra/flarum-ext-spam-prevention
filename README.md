@@ -52,6 +52,8 @@ How does it take action?
 
 use Flarum\Extend;
 use Blomstra\Spam;
+use Laminas\Diactoros\Uri;
+use Flarum\User\User;
 
 return [
     (new Spam\Filter)
@@ -67,6 +69,11 @@ return [
             'flarum.org',
             'discuss.flarum.org'
         ])
+        // Use custom (expert) logic.
+        // Return true to ignore further checking this link for validity.
+        ->allowLink(function (Uri $uri, User $actor = null) {
+            if ($uri->getHost() === '127.0.0.1') return true;
+        })
         // How long after sign up all posts are scrutinized for bad content
         ->checkForUserUpToHoursSinceSignUp(5)
         // How many of the first posts of a user to scrutinize for bad content

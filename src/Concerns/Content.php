@@ -3,6 +3,7 @@
 namespace Blomstra\Spam\Concerns;
 
 use Flarum\Locale\LocaleManager;
+use Flarum\User\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laminas\Diactoros\Uri;
@@ -11,13 +12,13 @@ use Blomstra\Spam\Filter;
 
 trait Content
 {
-    public function containsProblematicContent(string $content): bool
+    public function containsProblematicContent(string $content, User $actor = null): bool
     {
-        return $this->containsProblematicLinks($content)
+        return $this->containsProblematicLinks($content, $actor)
             || $this->containsAlternateLanguage($content);
     }
 
-    public function containsProblematicLinks(string $content): bool
+    public function containsProblematicLinks(string $content, User $actor = null): bool
     {
         $domains = Filter::getAcceptableDomains();
 
@@ -25,10 +26,16 @@ trait Content
         preg_match_all('~(?<uri>(\w+)://(?<domain>[-\w.]+))~', $content, $links);
 
         foreach (array_filter($links['domain']) as $link) {
-            $uri = (new Uri("http://$link"))->getHost();
+            $uri = (new Uri("http://$link"));
+            $host = $uri->getHost();
+
+            // If custom callable allows it.
+            foreach (Filter::$allowLinksCallables as $callable) {
+                if ($callable($uri, $actor) === true) continue 2;
+            }
 
             // Match exact domain or subdomains.
-            if (Arr::first($domains, fn ($domain) => $domain === $uri || Str::endsWith($uri, ".$domain"))) {
+            if (Arr::first($domains, fn ($domain) => $domain === $host || Str::endsWith($host, ".$domain"))) {
                 continue;
             }
 

@@ -14,8 +14,10 @@ class Filter implements ExtenderInterface
     public static int $userPostCount = 1;
     public static int $userAge = 1;
     public static ?int $moderatorUserId = null;
+    /** @var array|callable[] */
+    static array $allowLinksCallables = [];
 
-    public function allowLinksFromDomain(string $domain)
+    public function allowLinksFromDomain(string $domain): self
     {
         static::$acceptableDomains[] = static::parseDomain($domain);
 
@@ -31,7 +33,7 @@ class Filter implements ExtenderInterface
         return parse_url($domain, PHP_URL_HOST);
     }
 
-    public function allowLinksFromDomains(array $domains)
+    public function allowLinksFromDomains(array $domains): self
     {
         foreach ($domains as $domain) {
             $this->allowLinksFromDomain($domain);
@@ -40,21 +42,28 @@ class Filter implements ExtenderInterface
         return $this;
     }
 
-    public function checkForUserUpToPostContribution(int $posts = 1)
+    public function allowLink(callable $callable): self
+    {
+        static::$allowLinksCallables[] = $callable;
+
+        return $this;
+    }
+
+    public function checkForUserUpToPostContribution(int $posts = 1): self
     {
         static::$userPostCount = $posts;
 
         return $this;
     }
 
-    public function checkForUserUpToHoursSinceSignUp(int $hours = 1)
+    public function checkForUserUpToHoursSinceSignUp(int $hours = 1): self
     {
         static::$userAge = $hours;
 
         return $this;
     }
 
-    public function moderateAsUser(int $userId)
+    public function moderateAsUser(int $userId): self
     {
         static::$moderatorUserId = $userId;
 
@@ -75,8 +84,6 @@ class Filter implements ExtenderInterface
             $config->url()->getHost()
         ]);
 
-        $domains = array_filter($domains);
-
-        return $domains;
+        return array_filter($domains);
     }
 }

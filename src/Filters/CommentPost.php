@@ -38,7 +38,7 @@ class CommentPost
             // Only test against comment posts for now (no event posts for instance)
             && $post->type === 'comment'
             // Now actually check whether the content contains content we MAY consider spam.
-            && $this->containsProblematicContent($post->content)) {
+            && $this->containsProblematicContent($post->content, $event->actor)) {
             $this->requireApproval($post, 'contains URL or email address');
         }
     }

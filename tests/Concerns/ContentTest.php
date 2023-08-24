@@ -6,6 +6,8 @@ use Blomstra\Spam\Concerns\Content;
 use Blomstra\Spam\Filter;
 use Blomstra\Spam\Tests\TestCase;
 use Flarum\Foundation\Config;
+use Illuminate\Support\Str;
+use Laminas\Diactoros\Uri;
 
 class ContentTest extends TestCase
 {
@@ -222,6 +224,31 @@ EOM
 27 Ağustos 2015'te kullanıcı profilimi oluşturdum. İnanmayacaksınız ama gerçekten doğru.
 EOM
             )
+        );
+    }
+
+    /**
+     * @test
+     * @see https://discuss.flarum.org/d/31524-spam-prevention/69
+     * @covers \Blomstra\Spam\Filter::allowLink
+     */
+    function succeeds_with_ip_allowed()
+    {
+        $this->assertTrue(
+            $this->containsProblematicLinks(<<<EOM
+Come download from http://127.0.0.1/download.html.
+EOM
+            ), 'Does not see local ip/download link as problematic.'
+        );
+
+        (new Filter)
+            ->allowLink(fn (Uri $uri) => $uri->getHost() === '127.0.0.1');
+
+        $this->assertFalse(
+            $this->containsProblematicLinks(<<<EOM
+Come download from http://127.0.0.1/download.html.
+EOM
+            ), 'Sees allowed local ip as problematic.'
         );
     }
 }
