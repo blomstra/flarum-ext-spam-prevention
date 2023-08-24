@@ -3,6 +3,7 @@
 namespace Blomstra\Spam\Filters;
 
 use Blomstra\Spam\Concerns;
+use Blomstra\Spam\Filter;
 use FoF\UserBio\Event\BioChanged;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -13,6 +14,9 @@ class UserBio
 
     public function subscribe(Dispatcher $events)
     {
+        // This class is disabled, skip.
+        if (in_array(static::class, Filter::$disabled)) return;
+
         $events->listen(BioChanged::class, [$this, 'filter']);
     }
 

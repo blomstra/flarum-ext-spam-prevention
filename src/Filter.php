@@ -15,7 +15,9 @@ class Filter implements ExtenderInterface
     public static int $userAge = 1;
     public static ?int $moderatorUserId = null;
     /** @var array|callable[] */
-    static array $allowLinksCallables = [];
+    public static array $allowLinksCallables = [];
+    /** @var array|string[] */
+    public static array $disabled = [];
 
     public function allowLinksFromDomain(string $domain): self
     {
@@ -85,5 +87,12 @@ class Filter implements ExtenderInterface
         ]);
 
         return array_filter($domains);
+    }
+
+    public function disable(string $class): self
+    {
+        static::$disabled[] = $class;
+
+        return $this;
     }
 }

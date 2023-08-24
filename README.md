@@ -79,7 +79,9 @@ return [
         // How many of the first posts of a user to scrutinize for bad content
         ->checkForUserUpToPostContribution(5)
         // Specify the user Id of the moderator raising flags for some actions, otherwise the first admin is used
-        ->moderateAsUser(2),
+        ->moderateAsUser(2)
+        // Disable specific spam prevention components
+        ->disable(\Blomstra\Spam\Filters\UserBio::class),
 ];
 ```
 

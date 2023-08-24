@@ -3,6 +3,7 @@
 namespace Blomstra\Spam\Filters;
 
 use Blomstra\Spam\Concerns;
+use Blomstra\Spam\Filter;
 use Flarum\Post\Event\Saving;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Validation\Concerns\ValidatesAttributes;
@@ -17,6 +18,9 @@ class Discussion
 
     public function subscribe(Dispatcher $events)
     {
+        // This class is disabled, skip.
+        if (in_array(static::class, Filter::$disabled)) return;
+
         $events->listen(Saving::class, [$this, 'filter']);
     }
 
