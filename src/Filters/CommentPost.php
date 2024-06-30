@@ -13,7 +13,7 @@ class CommentPost
         Concerns\Users,
         Concerns\Content;
 
-    public function subscribe(Dispatcher $events)
+    public function subscribe(Dispatcher $events): void
     {
         // This class is disabled, skip.
         if (in_array(static::class, Filter::$disabled)) return;
@@ -21,13 +21,17 @@ class CommentPost
         $events->listen(Saving::class, [$this, 'filter']);
     }
 
-    public function filter(Saving $event)
+    public function filter(Saving $event): void
     {
         $discussion = $event->post->discussion;
         $post = $event->post;
 
+        // Anonymous user
+        $anonymous = $post->user === null;
+
         // When the user edits their first post, we need to rerun the check and hold for moderation.
-        $editsFirstPost = $post->user?->posts()->count() === 1
+        $editsFirstPost = ! $anonymous
+            && $post->user->posts()->count() === 1
             && $post->user->posts()->first()->is($event->post);
 
         if (
@@ -35,8 +39,8 @@ class CommentPost
             $event->actor->is($post->user)
             // Ignore any elevated user.
             && ! $this->isElevatedUser($event->actor)
-            // Only run the check with authors that are new or are posting for the first time.
-            && ($this->isFreshUser($post->user) || $editsFirstPost)
+            // Only run the check with authors that are anonymous, new or are posting for the first time.
+            && ($anonymous || ($this->isFreshUser($post->user) || $editsFirstPost))
             // Discussions that are hidden don't need to be checked.
             && $discussion->hidden_at === null
             // Only test against comment posts for now (no event posts for instance)
