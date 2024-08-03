@@ -18,6 +18,9 @@ class Filter implements ExtenderInterface
     public static array $allowLinksCallables = [];
     /** @var array|string[] */
     public static array $disabled = [];
+    /** @var array|string[] $problematicWords */
+    public static array $problematicWords = [];
+    public static int $problematicWordsRequired = 3;
 
     public function allowLinksFromDomain(string $domain): self
     {
@@ -92,6 +95,22 @@ class Filter implements ExtenderInterface
     public function disable(string $class): self
     {
         static::$disabled[] = $class;
+
+        return $this;
+    }
+
+    public function problematicWord(string|array $words): self
+    {
+        $words = (array) $words;
+
+        static::$problematicWords = array_merge(static::$problematicWords, $words);
+
+        return $this;
+    }
+
+    public function problematicWordsRequired(int $wordsRequired): self
+    {
+        static::$problematicWordsRequired = $wordsRequired;
 
         return $this;
     }

@@ -15,7 +15,8 @@ trait Content
     public function containsProblematicContent(string $content, User $actor = null): bool
     {
         return $this->containsProblematicLinks($content, $actor)
-            || $this->containsAlternateLanguage($content);
+            || $this->containsAlternateLanguage($content)
+            || $this->containsProblematicWords($content);
     }
 
     public function containsProblematicLinks(string $content, User $actor = null): bool
@@ -67,5 +68,28 @@ trait Content
         $languageDetection = (new Language)->detect($content);
 
         return ! empty($languageDetection) && ! in_array((string) $languageDetection, $locales);
+    }
+
+    public function containsProblematicWords(string $content): bool
+    {
+        $words = array_unique(Filter::$problematicWords);
+
+        if (empty($words)) {
+            return false;
+        }
+
+        $required = Filter::$problematicWordsRequired;
+
+        foreach ($words as $word) {
+            if (str_contains($content, $word)) {
+                $required--;
+            }
+
+            if ($required === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
