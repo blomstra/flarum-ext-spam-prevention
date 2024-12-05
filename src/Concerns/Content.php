@@ -45,9 +45,9 @@ trait Content
 
         return
             // phone
-            preg_match('~(\+|00)[0-9 ]{9,}~', $content) ||
+            preg_match('/(\+|00)([𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡0-9-\p{No}\p{Nd}\p{M}]){9,}/u', $content) ||
             // email
-            preg_match('~[\S]+@[\S]+\.[\S]+~', $content);
+            preg_match('~\S+@\S+\.\S+~', $content);
     }
 
     public function containsAlternateLanguage(string $content): bool
